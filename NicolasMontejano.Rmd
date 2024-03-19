@@ -1,26 +1,21 @@
 ---
 title: "Old"
-author: "Nicolás Montejano"
+author: "Nicolas Montejano"
 date: "2024-03-18"
 output: html_document
 ---
+Nicolás Montejano Pisonero - 3º INSO B
+Análisis de Sentimiento sobre "old" en Twitter
+Librerías y Directorios
+r
 
-## Nicolás Montejano Pisonero - 3º INSO B
-## Análisis de Sentimiento sobre Temas raros en Twitter
-
-
-
-### Librerías y Directorios
-```r
+Copy Code
 library(quanteda)
 library(quanteda.textplots)
 library(stringr)
 
 setwd("C:\\Users\\nicom\\OneDrive\\Escritorio\\Universidad\\3ºINSO\\BusquedaAnalisis\\Actividad1")
 ficheros_csv <- list.files(path = "russian-troll-tweets-master\\", pattern = "*.csv")
-```r
-###LECTURA DE TWEETS
-```r
 
 data_frame_troll <- data.frame()
 for (i in ficheros_csv) {
@@ -30,9 +25,7 @@ for (i in ficheros_csv) {
 }
 print(nrow(data_frame_troll))
 names(data_frame_troll)
-```r
-### LIMPIEZA DE DATAST
-```r
+Lectura de Dataset y Limpieza
 
 ##QUITAMOS COLUMNAS
 df_trolls <- subset(data_frame_troll, select = c("author", "content", "region", "language", "publish_date", "post_type", "account_type", "account_category"))
@@ -73,23 +66,16 @@ grep(pattern = "#", datos_filtrados$content, perl = T)
 
 # Salvamos el objeto
 save(datos_filtrados, file = "datos_filtrados.rda")
-```r
+Búsqueda de "old"
+r
 
-### Búsqueda de "old"
-```r
 # Temas "raros" (pelo, perder peso...)
 indices <- grep("old", datos_filtrados$content)
 
 # Tomar los primeros X índices encontrados
 primeros_X <- head(indices, 50)
-```r
+Limpieza del Dataset
 
-![Gráfico de Tweets](tweets.png)
-
-###Limpieza del Dataset
-```r
-
-Copy code
 # Lo primero que tenemos que hacer es quitar las palabras que sean similares a "old" pero que no tengan nada que ver
 # Para poder estudiar lo mejor posible el texto
 # Definir las palabras que queremos eliminar
@@ -109,23 +95,15 @@ datos_filtrados <- subset(datos_filtrados, grepl("old", datos_filtrados$content)
 
 # Salvamos el Objeto
 save(datos_filtrados, file = "datos_filtrados_old.rda")
-```r
+Trolls de Derecha (RightTroll)
+r
 
-
-###Trolls de Derecha (RightTroll)
-```r
-
-Copy code
 # Trolls de Derecha (RightTroll)
 # Nos quedamos solo con los tweets de RightTroll
 ds_right_old <- subset(datos_filtrados, account_category == "RightTroll")
 save(ds_right_old, file = "ds_right_old.rda")
-```r
+Tokens más predominantes con un CORPUS
 
-### Tokens más predominantes con un CORPUS
-```r
-
-Copy code
 # Creamos un CORPUS
 corpus_right_old <- quanteda::corpus(ds_right_old$content)
 
@@ -187,23 +165,19 @@ textplot_wordcloud(myStemMat,
                    color = RColorBrewer::brewer.pal(8, "Dark2"))
 
 dev.off()
-```r
 
-![Nube de palabras para RightTroll](imagenes/old_right.png)
+Right Troll
 
-### Trolls de Izquierda (LeftTroll)
-```r
+Trolls de Izquierda (LeftTroll)
+r
 
-Copy code
 # Trolls de Izquierda (LeftTroll)
 load("datos_filtrados.rda")
-
 
 # Nos quedamos solo con los tweets de LeftTroll
 ds_left_old <- subset(datos_filtrados, account_category == "LeftTroll")
 save(ds_left_old, file = "ds_left_old.rda")
-```r
-```r
+
 # Creamos un CORPUS
 corpus_left_old <- quanteda::corpus(ds_left_old$content)
 
@@ -265,9 +239,8 @@ textplot_wordcloud(myStemMat,
                    color = RColorBrewer::brewer.pal(8, "Dark2"))
 
 dev.off()
-```r
-![Nube de palabras para LeftTroll](imagenes/old_left.png)
 
+Left Troll
 
 Conclusiones
 Después de analizar los tweets relacionados con la palabra "old" de los trolls rusos tanto de derecha como de izquierda, podemos observar algunas diferencias en los temas predominantes:
@@ -276,18 +249,17 @@ RightTroll: Los temas predominantes incluyen "old people", "old white", "old man
 LeftTroll: Los temas predominantes incluyen "old white", "old men", "old people", y "old woman".
 Ambos grupos parecen centrarse en discusiones relacionadas con personas mayores, pero los términos específicos pueden diferir ligeramente entre ellos.
 
-## Análisis de Sentimientos
+Análisis de Sentimientos
 RightTroll
-```r
-Copy code
+r
+
 library(tidytext)
 library(tidyverse)
 library(syuzhet)
 library(dplyr)
 library(textdata)
 library(ggplot2)
-```r
-```r
+
 ### Análisis de Sentimientos
 load("ds_right_old.rda")
 
@@ -305,32 +277,19 @@ tweets_sentiment <- ds_tweets_tidy %>%
 # Mostrar los resultados
 tweets_sentiment %>%
   arrange(desc(sentiment))
-  ```r
-  ![Gráfico de Sentimientos](sentiment_positive.png)
 
-### Crear el gráfico de barras
-```r
+# Crear el gráfico de barras
 ggplot(data = tweets_sentiment, aes(x = sentiment)) +
   geom_bar(color = 'darkslategray', fill = 'steelblue') +
   xlab("Sentimiento") +
   ylab("Cantidad de Tweets") +
   ggtitle("Gráfico de Barras")
-  ```r
- 
-  ![Gráfico de Sentimientos](leftplot.png)
-  
-  
-  
-##LeftTroll
- ![Gráfico de Sentimientos](sentiment_negative.png)
 
-  
-  #ANALISIS DE SENTIMIENTOS
- ```r
-Copy code
+LeftTroll
+r
+
 ### Análisis de Sentimientos
 load("ds_left_old.rda")
-
 
 # Dividir los tweets en palabras y crear un tidy dataset
 ds_tweets_tidy <- ds_left_old %>%
@@ -353,6 +312,6 @@ ggplot(data = tweets_sentiment, aes(x = sentiment)) +
   xlab("Sentimiento") +
   ylab("Cantidad de Tweets") +
   ggtitle("Gráfico de Barras")
- ```r
-   ![Gráfico de Sentimientos](rightplot.png)
- 
+
+
+En ambos grupos, RightTroll y LeftTroll, los tweets parecen tener un rango de sentimientos más neutrales, con algunos extremos positivos y negativos, pero predominando valores cercanos a cero. Esto sugiere que los trolls de ambos lados pueden estar utilizando un lenguaje menos emocional en sus tweets relacionados con la palabra "old"
