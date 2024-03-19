@@ -165,10 +165,13 @@ png(filename="old_right.png",
     height=3000)
 
 textplot_wordcloud(myStemMat, 
-                   min_count = 10, 
+                   min_count = 20,  # Adjust as needed
+                   max_words = 100,  # Limit the number of words displayed
                    random_order = FALSE,
                    rotation = 0,
                    color = RColorBrewer::brewer.pal(8,"Dark2"))
+
+
 
 #Cerramos la conexion para que se cree la imagen png
 dev.off()
