@@ -21,7 +21,7 @@ El proyecto está organizado de la siguiente manera:
 
 - `README.md`: Este archivo proporciona una visión general del proyecto.
 - `nicolas_montejano_text_mining.Rmd`: Un documento R Markdown que contiene el código y la narrativa para el análisis de sentimiento.
-- `datasets/`: Carpeta que contiene archivos CSV con tweets relacionados con el caso Epstein.
+- `datasets/`: Carpeta que contiene archivos CSV con tweets relacionados con el caso Epstein. (falta algun rda por tamaño)
 - `imagenes/`: Carpeta para almacenar imágenes generadas durante el análisis, como nubes de palabras y gráficos de sentimiento.
 
 ## Tecnologías Utilizadas
